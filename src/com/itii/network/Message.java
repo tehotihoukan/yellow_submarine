@@ -3,34 +3,35 @@ package com.itii.network;
 public class Message
 {
 
-    private String mID;
-    private String mMessage = null;
-
-    public Message(int pId)
+    String mMessage;
+    String mId;
+    
+    
+    public Message (int pId, String pMsg )
     {
-        mID = String.format("%02d", pId);
+        mId=       String.format("%02d", pId);
+        mMessage=  pMsg;
     }
 
-    public Message(int pId, String pMessage)
-    {
-        mID = String.format("%02d", pId);
-        mMessage = pMessage;
-    }
 
-    public int getID()
-    {
-        return Integer.parseInt(mID);
-    }
-
-    public String getMessage()
+    public String getMessage ()
     {
         return mMessage;
     }
 
-    @Override
-    public String toString()
-    {
-        return mID + (mMessage == null ? "" : mMessage);
-    }
 
+    public int getId ()
+    {
+        return Integer.parseInt( mId );
+    }
+    
+    
+    @Override
+    public String toString ()
+    {
+        return mMessage == null
+                   ? mId
+                   : mId + " " + mMessage; 
+        
+    }
 }

@@ -1,76 +1,61 @@
 package com.itii.data;
 
-import java.awt.Graphics2D;
-
 import com.itii.data.State.BoatOrientation;
 
-/**
- * 
- * @author Sebastien MARTAGEX
- *
- */
 public abstract class Boat
 {
-    public static int TOTAL_NUMBER_OF_SQUARE_OCCUPIED;
-
-    private boolean mIsOnTheGrid;
-    private BoatOrientation mOrientation = BoatOrientation.HORIZONTAL;
+    
+    public static int mTotalNumberOfSquare;
+    
+    protected boolean mIsPlacedOnGrid=  false;
+    
+    private BoatOrientation mBoatOrientation=  BoatOrientation.VERTICAL;
 
     public abstract BoatList getBoatType();
-
+    
+//    public abstract int getSize();
+    
     @Override
-    public String toString()
+    public String toString ()
     {
-        return getBoatType().getDisplayName() + " [" + getLength() + "]";
+        return getBoatType().name();
     }
-
-    public static int countTotalNumberOfBoatSquares(final Boat[] pBoats)
-    {
-        TOTAL_NUMBER_OF_SQUARE_OCCUPIED = 0;
-
-        for (int i = 0; i < pBoats.length; i++)
-        {
-            TOTAL_NUMBER_OF_SQUARE_OCCUPIED += pBoats[i].getLength();
-        }
-        return TOTAL_NUMBER_OF_SQUARE_OCCUPIED;
-    }
-
+    
+    
     public int getCenter()
     {
-        return (getLength() / 2);
+        return getBoatType().getLength() / 2;
     }
-
-    /**
-     * @return the length of the boat in number of square occupied.
-     */
-    public int getLength()
-    {
-        return getBoatType().getLength();
-    }
-
+    
     public BoatOrientation getOrientation()
     {
-        return mOrientation;
+        return mBoatOrientation;
     }
-
-    public void setOrientation(final BoatOrientation pOrientation)
+    
+    public void setOrientation( final BoatOrientation pOrientation )
     {
-        mOrientation = pOrientation;
+        mBoatOrientation=  pOrientation;
     }
-
-    public void flipOrientation()
+    
+    public final void flipOrientation()
     {
-        setOrientation(getOrientation() == BoatOrientation.HORIZONTAL ? BoatOrientation.VERTICAL
-                : BoatOrientation.HORIZONTAL);
+        setOrientation( getOrientation() == BoatOrientation.HORIZONTAL 
+                            ? BoatOrientation.VERTICAL
+                            : BoatOrientation.HORIZONTAL );
+                        
     }
-
-    /**
-     * Method to display the image representing the boat on the grid.
-     */
-    public void paintBoat( final Graphics2D  pGraphics,
-                           final int         pSquareSize )
+    
+    
+    
+    public static int countTotalNumberOfBoatSquares( final Boat[] boats)
     {
+        mTotalNumberOfSquare=  0;
         
+        for (int i= 0 ; i < boats.length ; i++ )
+        {
+            mTotalNumberOfSquare+=  boats[i].getBoatType().getLength();
+        }
+        return mTotalNumberOfSquare;
     }
-
+    
 }

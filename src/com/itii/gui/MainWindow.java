@@ -1,99 +1,106 @@
 package com.itii.gui;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
 import javax.swing.JFrame;
 
-public class MainWindow extends JFrame
+public class MainWindow 
+    extends JFrame
 {
 
-    Desk mDesk;
-    private static MainWindow instance = new MainWindow();
-
+    
+    private static MainWindow instance=  new MainWindow();;
+    
+    private Desk mDesk;
+    
     private MainWindow()
     {
         initialize();
     }
+    
+    private void initialize()
+    {
+        setSize( 600, 265);
+        setVisible( true );
+        setResizable( false );
+        
+        addWindowListener( 
+                new WindowListener() 
+                {
 
+                    @Override
+                    public void windowActivated ( WindowEvent arg0 )
+                    {
+                        // TODO Auto-generated method stub
+                        
+                    }
+
+                    @Override
+                    public void windowClosed ( WindowEvent arg0 )
+                    {
+                        // TODO Auto-generated method stub
+                        
+                    }
+
+                    @Override
+                    public void windowClosing ( WindowEvent arg0 )
+                    {
+                        System.out.println("closing");
+                        System.exit(0);
+                    }
+
+                    @Override
+                    public void windowDeactivated ( WindowEvent arg0 )
+                    {
+                        // TODO Auto-generated method stub
+                        
+                    }
+
+                    @Override
+                    public void windowDeiconified ( WindowEvent arg0 )
+                    {
+                        // TODO Auto-generated method stub
+                        
+                    }
+
+                    @Override
+                    public void windowIconified ( WindowEvent arg0 )
+                    {
+                        // TODO Auto-generated method stub
+                        
+                    }
+
+                    @Override
+                    public void windowOpened ( WindowEvent arg0 )
+                    {
+                        // TODO Auto-generated method stub
+                        
+                    }
+            
+                }
+                
+        );
+        
+        this.getContentPane().add( getDesk() );
+
+        this.validate();
+        this.repaint();
+    }
+    
+    public Desk getDesk()
+    {
+        if ( mDesk == null )
+        {
+            mDesk=  new Desk();
+        }
+        return mDesk;
+    }
+    
     public static MainWindow getInstance()
     {
         return instance;
     }
-
-    public void initialize()
-    {
-        setVisible(true);
-        setSize(1000, 300);
-
-        getContentPane().add(getDesk());
-
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-//        addWindowListener(new WindowListener()
-//        {
-//
-//            @Override
-//            public void windowActivated(WindowEvent e)
-//            {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void windowClosed(WindowEvent e)
-//            {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void windowClosing(WindowEvent e)
-//            {
-//                System.out.println("closing");
-//                System.exit(0);
-//            }
-//
-//            @Override
-//            public void windowDeactivated(WindowEvent e)
-//            {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void windowDeiconified(WindowEvent e)
-//            {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void windowIconified(WindowEvent e)
-//            {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void windowOpened(WindowEvent e)
-//            {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//        }
-//
-//        );
-
-        
-        validate();
-        repaint();
-    }
-
-    public Desk getDesk()
-    {
-        if (mDesk == null)
-        {
-            mDesk = new Desk();
-        }
-        return mDesk;
-    }
-
+    
+    
 }

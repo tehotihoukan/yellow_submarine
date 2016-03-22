@@ -2,39 +2,36 @@ package com.itii.data;
 
 public class Coordinates
 {
-
-    short mY;
-    short mX;
-
-    public Coordinates(short pX, short pY)
+    private final short mX, mY;
+    
+    public Coordinates ( final short pX, final short pY )
     {
-        mY = pY;
-        mX = pX;
+        mX=  pX;
+        mY=  pY;
     }
-
-    public short getmX()
+    
+    public short getX ()
     {
         return mX;
     }
-
-    public short getmY()
+    
+    public short getY ()
     {
         return mY;
     }
-
-    @Override
-    public String toString()
+    
+    public String toString ()
     {
-        return String.format("%02d", mX) + String.format("%02d", mY);
+        return String.format("%02d", mX)+ String.format("%02d", mY);
     }
 
-    public static Coordinates readCoordinatesFromString(String pString)
+
+    public static final Coordinates getCoordinatesFromString ( final String pString )
     {
-        final String coordinates = pString.substring(2);
-        Short x = Short.parseShort(coordinates.substring(0, 2));
-        Short y = Short.parseShort(coordinates.substring(2, 4));
-
-        return new Coordinates(x, y);
+        final String coordinates=  pString.substring( 3 );
+        final Short  x=            Short.parseShort( coordinates.substring( 0, 2 ) );
+        final Short  y=            Short.parseShort( coordinates.substring( 2, 4 ) );
+        
+        return new Coordinates( x, y );
     }
-
 }

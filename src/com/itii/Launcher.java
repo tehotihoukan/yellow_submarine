@@ -6,12 +6,15 @@ import com.itii.network.Receiver;
 
 public class Launcher
 {
-    public static void main(String[] args)
+
+    public static void main ( String[] args )
     {
         MainWindow.getInstance();
+        
         TurnManager.getInstance().updateCurrentPhase();
-
-        Receiver.getInstance().setPortNumber(8888);
+        
+        Receiver.getInstance().setPort( 8888 );
         Receiver.getInstance().start();
+        
     }
 }

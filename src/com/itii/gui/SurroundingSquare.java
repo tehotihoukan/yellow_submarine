@@ -4,53 +4,62 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public class SurroundingSquare extends Square
+//import com.itii.data.State;
+//import com.itii.data.State.StateEnum;
+
+public class SurroundingSquare 
+    extends Square
 {
 
-//    int pSquareSize= 40;
-    final String mName;
-
-    public SurroundingSquare( short pX, short pY )
+    private static final char startingLetter=  'A' - 1 ;
+    private static final int  startingNumber=  0;
+    
+    
+    private final String currentName;
+    
+    public SurroundingSquare ( final short pXCoordinate, final short pYCoordinate )
     {
-        super(pX,pY);
-
-        if ( pX == 0 )
+        super( pXCoordinate, pYCoordinate );
+        
+        if ( pXCoordinate == 0 )
         {
-            mName= "" + ( pY );
-        }
-        else if ( pY == 0 )
-        {
-            mName= "" + (char) ( 64 + pX );
+            currentName=  Integer.toString( startingNumber + pYCoordinate );
         }
         else
         {
-            mName= "error";
+            currentName=  String.valueOf( (char)(startingLetter + pXCoordinate) );
         }
-//        System.out.println("mname : " + mName);
     }
-
-//    @Override
-//    public void paintSquare(Graphics pGraphic, int pSquareSize)
+    
+    
+    
     @Override
-    public void paint(Graphics pGraphic)
+    public final void paintSquare ( Graphics pGraphics, int pSquareDimension )
     {
+        
+        final Graphics2D graphics=  (Graphics2D) pGraphics;
 
-        Graphics2D g= ( Graphics2D ) pGraphic;
-        g.setColor( Color.black );
+        final Color defaultBgColor=  graphics.getBackground();
+        final Color defaultFgColor=  graphics.getColor();
+        
+        graphics.setBackground( Color.BLACK );
+        graphics.setColor( Color.BLACK );
+        graphics.fillRect( mCoordinates.getX() * pSquareDimension, 
+                           mCoordinates.getY() * pSquareDimension,
+                           pSquareDimension, 
+                           pSquareDimension );
 
-        g.fillRect( 0,//pSquareSize * mCoordinates.getmX(),
-                    0,//       pSquareSize * mCoordinates.getmY(),
-                    getWidth(),//       pSquareSize,
-                    getHeight() //       pSquareSize 
-                    );
-
-        g.setColor( Color.white );
-
-        g.drawString( mName,
-                      //pSquareSize * mCoordinates.getmX() 
-                      pSquareSize / 3 ,
-                      //pSquareSize * mCoordinates.getmY()
-                      pSquareSize / 2 );
-
+        graphics.setColor( Color.WHITE );
+        graphics.drawString( currentName, 
+                             mCoordinates.getX() * pSquareDimension + pSquareDimension / 2, 
+                             mCoordinates.getY() * pSquareDimension + pSquareDimension - 3 );
+        
+        
+        
+        graphics.setColor( defaultFgColor );
+        graphics.setBackground( defaultBgColor );
+        
+        
     }
+    
 }

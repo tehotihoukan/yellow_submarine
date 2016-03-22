@@ -8,27 +8,26 @@ import com.itii.network.Sender;
 public class Tester
 {
 
-    public static void main(final String[] args)
+    /**
+     * @param args
+     */
+    public static void main( String[] args )
     {
         Sender.getInstance().setPort(8888);
         Sender.getInstance().setHost("127.0.0.1");
         Sender.getInstance().initialize();
-
-        while (true)
+        
+        Sender.getInstance()
+              .sendPlayerMessage(
+                      new Message(MessageType.SQUARE_HIT_ID,  
+                                  (new Coordinates( (short)4,(short)5 )).toString() ));
+        try
         {
-            Sender.getInstance().sendPlayerMessage(
-                    new Message(MessageType.SQUARE_HIT_ID, new Coordinates(
-                            (short) 4, (short) 5).toString()));
-
-            try
-            {
-                Thread.sleep(10000);
-
-            } catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
+            Thread.sleep( 10000 );
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
         }
-
     }
 }
+

@@ -1,67 +1,89 @@
 package com.itii.gui;
 
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import com.itii.data.Boat;
 
-/**
- * Main desk where all the game takes places.
- * It contains both menu and player grids.
- *
- * @author Sebastien MARTAGEX
- *
- */
-public class Desk
+public class Desk 
     extends JPanel
 {
 
-    private GameMenu mGameMenu;
-    private GridDisplay mOpponentGrid;
-    private final GridDisplay mPlayerGrid;
-
-    public Desk()
+    private GridDisplay mJoueurGrid;
+    private GridDisplay mAdversaireGrid;
+    private GameMenu  mGameMenu;
+    
+    public Desk ()
     {
-        mPlayerGrid = new GridDisplay(10, false);
         initialize();
     }
-
-    private void initialize()
+    
+    public void initialize()
     {
-        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        add(getOpponentGrid());
-        add(getGameMenu());
-        add(mPlayerGrid);
+        
+        setBackground( new Color( 80, 80, 180) );
+        this.setLayout( new GridBagLayout( ) );
+        GridBagConstraints c = new GridBagConstraints();
+    
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 0.4;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        this.add( getJoueurGrid(), c );
+        
+        
+        c.weightx = 0.2;
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        this.add( getGameMenu(), c);
+        
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 0.4;
+        c.gridx = 3;
+        c.gridy = 0;
+        c.gridwidth = 2;
+        this.add( getAdversaireGrid(), c );
+        
     }
-
-    public boolean isOpponentSunk()
+    
+    public GridDisplay getJoueurGrid()
     {
-        return (mOpponentGrid.getNumberOfBoatSquareNotHit() >= Boat.TOTAL_NUMBER_OF_SQUARE_OCCUPIED)
-                    ? true
-                    : false;
-    }
-
-    public GridDisplay getOpponentGrid()
-    {
-        if (mOpponentGrid == null)
+        if ( mJoueurGrid == null )
         {
-            mOpponentGrid = new GridDisplay(10, true);
+            mJoueurGrid=  new  GridDisplay( 10 , false ); 
         }
-
-        return mOpponentGrid;
+        return mJoueurGrid;
     }
-
-    public GridDisplay getPlayerGrid()
+    
+    public GridDisplay getAdversaireGrid()
     {
-        return mPlayerGrid;
+        if ( mAdversaireGrid == null  )
+        {
+            mAdversaireGrid=  new  GridDisplay( 10, true );
+        }
+        return mAdversaireGrid;
     }
-
+    
     public GameMenu getGameMenu()
     {
-        if (mGameMenu == null)
+        if ( mGameMenu == null )
         {
-            mGameMenu = new GameMenu();
+            mGameMenu=  new GameMenu();
         }
         return mGameMenu;
+    }
+    
+    
+    public final boolean isOpponentSunk()
+    {
+        return mAdversaireGrid.getNumberOfBoatSquareUnsunk() >= Boat.mTotalNumberOfSquare
+                    ? true 
+                    : false;
     }
 }
