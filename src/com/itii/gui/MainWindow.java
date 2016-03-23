@@ -5,12 +5,13 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
+/**
+ * Main Window containing all the game
+ */
 public class MainWindow 
     extends JFrame
 {
-
-    
-    private static MainWindow instance=  new MainWindow();;
+    private static MainWindow instance=  new MainWindow();
     
     private Desk mDesk;
     
@@ -24,64 +25,10 @@ public class MainWindow
         setSize( 600, 265);
         setVisible( true );
         setResizable( false );
+        // When closing the window, exit also the program
+        setDefaultCloseOperation( EXIT_ON_CLOSE );
         
-        addWindowListener( 
-                new WindowListener() 
-                {
-
-                    @Override
-                    public void windowActivated ( WindowEvent arg0 )
-                    {
-                        // TODO Auto-generated method stub
-                        
-                    }
-
-                    @Override
-                    public void windowClosed ( WindowEvent arg0 )
-                    {
-                        // TODO Auto-generated method stub
-                        
-                    }
-
-                    @Override
-                    public void windowClosing ( WindowEvent arg0 )
-                    {
-                        System.out.println("closing");
-                        System.exit(0);
-                    }
-
-                    @Override
-                    public void windowDeactivated ( WindowEvent arg0 )
-                    {
-                        // TODO Auto-generated method stub
-                        
-                    }
-
-                    @Override
-                    public void windowDeiconified ( WindowEvent arg0 )
-                    {
-                        // TODO Auto-generated method stub
-                        
-                    }
-
-                    @Override
-                    public void windowIconified ( WindowEvent arg0 )
-                    {
-                        // TODO Auto-generated method stub
-                        
-                    }
-
-                    @Override
-                    public void windowOpened ( WindowEvent arg0 )
-                    {
-                        // TODO Auto-generated method stub
-                        
-                    }
-            
-                }
-                
-        );
-        
+        // Main Pane
         this.getContentPane().add( getDesk() );
 
         this.validate();

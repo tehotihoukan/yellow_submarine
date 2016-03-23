@@ -1,5 +1,7 @@
 package com.itii.manager;
 
+import javax.swing.SwingUtilities;
+
 import com.itii.data.State.GamePhase;
 import com.itii.gui.Desk;
 import com.itii.gui.GameMenu;
@@ -62,124 +64,143 @@ public class TurnManager
         this.mIsOpponentPlayerAvailable= pOpponentPlayerAvailable;
     }
     
+    /**
+     * Thread safe because we handle the EDT
+     */
     public void updateCurrentPhase()
     {
-        GameMenu gameMenu=  MainWindow.getInstance().getDesk().getGameMenu();
 
-        switch ( mGamePhase ) 
+        Thread t= new Thread( new Runnable()
         {
-            case STARTING:
+            public void run ()
             {
-                gameMenu.getJoinButton().setEnabled( true );
-                gameMenu.getQuitButton().setEnabled( true );
-                gameMenu.getReadyButton().setEnabled( false );
-                gameMenu.getBoatComboBox().setEnabled( false );
-                gameMenu.getRotateBoatButton().setEnabled( false );
-                gameMenu.getSurrenderButton().setEnabled( false );
-                gameMenu.getHitButton().setEnabled( false );
-                gameMenu.getRestartButton().setEnabled( false );
-                
-                MainWindow.getInstance().getDesk()
-                                        .getAdversaireGrid()
-                                        .setGridDisplayEnabled( false );
-                MainWindow.getInstance().getDesk()
-                                        .getJoueurGrid()
-                                        .setGridDisplayEnabled( false );
-                break;
+                final GameMenu gameMenu=  MainWindow.getInstance().getDesk().getGameMenu();
+
+                switch ( mGamePhase ) 
+                {
+                    case STARTING:
+                    {
+                        gameMenu.getJoinButton().setEnabled( true );
+                        gameMenu.getQuitButton().setEnabled( true );
+                        gameMenu.getReadyButton().setEnabled( false );
+                        gameMenu.getBoatComboBox().setEnabled( false );
+                        gameMenu.getRotateBoatButton().setEnabled( false );
+                        gameMenu.getSurrenderButton().setEnabled( false );
+                        gameMenu.getHitButton().setEnabled( false );
+                        gameMenu.getRestartButton().setEnabled( false );
+                        
+                        MainWindow.getInstance().getDesk()
+                                                .getAdversaireGrid()
+                                                .setGridDisplayEnabled( false );
+                        MainWindow.getInstance().getDesk()
+                                                .getJoueurGrid()
+                                                .setGridDisplayEnabled( false );
+                        break;
+                    }
+                    
+                    case WAITING_FOR_OPPONENT : 
+                    {
+                        mIsCurrentPlayerAvailable=  true;
+                        break;
+                    }
+                    case WAITING_FOR_YOU :
+                    {
+                        mIsOpponentPlayerAvailable=  true;
+                        break;
+                    }
+                    case DEPLOYMENT :
+                    {
+                        gameMenu.getJoinButton().setText( "Joined" );
+                        gameMenu.getJoinButton().setEnabled( false );
+                        gameMenu.getRotateBoatButton().setEnabled( true );
+                        gameMenu.getBoatComboBox().setEnabled( true );
+                        MainWindow.getInstance().getDesk()
+                                                .getJoueurGrid()
+                                                .setGridDisplayEnabled( true );
+                        break;
+                    }
+                    case DEPLOYMENT_ENDED :
+                    {
+                        gameMenu.getRotateBoatButton().setEnabled( false );
+                        gameMenu.getBoatComboBox().setEnabled( false );
+                        gameMenu.getReadyButton().setEnabled( true );
+                        MainWindow.getInstance().getDesk()
+                                                .getJoueurGrid()
+                                                .setGridDisplayEnabled( false );
+                        break;
+                    }
+                    case STARTED :
+                    {
+//                        game_menu.getBoatComboBox().setEnabled( true );
+                        break;
+                    }
+                    case ENDED :
+                    {
+                        MainWindow.getInstance()
+                                  .getDesk()
+                                  .getGameMenu()
+                                  .getRestartButton()
+                                  .setEnabled( true );
+                        MainWindow.getInstance()
+                                  .getDesk()
+                                  .getGameMenu()
+                                  .getHitButton()
+                                  .setEnabled(false);
+                        break;
+                    }
+                    case PLAYER_LEFT :
+                    {
+                        
+                        break;
+                    }
+                    case OPPONENT_READY :
+                    { 
+//                        mIsOpponentReady=  true;
+                        // Display Ready on opponent player grid              
+                        break;
+                    }
+                    case PLAYER_READY :
+                    {
+//                        mFirstPlayerToBegin=  true;
+                        // Display Ready on current player grid
+                        break;                
+                    }
+                    
+                    case PLAYER_TURN :
+                    {
+                        gameMenu.getHitButton().setEnabled( true );
+                        MainWindow.getInstance().getDesk()
+                                                .getJoueurGrid()
+                                                .setGridDisplayEnabled( false );
+                        MainWindow.getInstance().getDesk()
+                                                .getAdversaireGrid()
+                                                .setGridDisplayEnabled( true );
+                        break;
+                    }
+                    case OPPONENT_TURN :
+                    {
+                        gameMenu.getHitButton().setEnabled( false );
+                        MainWindow.getInstance().getDesk()
+                                                .getAdversaireGrid()
+                                                .setGridDisplayEnabled( false );
+                        break;
+                    }
+                    
+                    case READY :
+                    {
+                        break;
+                    }
+                }
             }
-            
-            case WAITING_FOR_OPPONENT : 
-            {
-                mIsCurrentPlayerAvailable=  true;
-                break;
-            }
-            case WAITING_FOR_YOU :
-            {
-                mIsOpponentPlayerAvailable=  true;
-                break;
-            }
-            case DEPLOYMENT :
-            {
-                gameMenu.getJoinButton().setText( "Joined" );
-                gameMenu.getJoinButton().setEnabled( false );
-                gameMenu.getRotateBoatButton().setEnabled( true );
-                gameMenu.getBoatComboBox().setEnabled( true );
-                MainWindow.getInstance().getDesk()
-                                        .getJoueurGrid()
-                                        .setGridDisplayEnabled( true );
-                break;
-            }
-            case DEPLOYMENT_ENDED :
-            {
-                gameMenu.getRotateBoatButton().setEnabled( false );
-                gameMenu.getBoatComboBox().setEnabled( false );
-                gameMenu.getReadyButton().setEnabled( true );
-                MainWindow.getInstance().getDesk()
-                                        .getJoueurGrid()
-                                        .setGridDisplayEnabled( false );
-                break;
-            }
-            case STARTED :
-            {
-//                game_menu.getBoatComboBox().setEnabled( true );
-                break;
-            }
-            case ENDED :
-            {
-                MainWindow.getInstance()
-                          .getDesk()
-                          .getGameMenu()
-                          .getRestartButton()
-                          .setEnabled( true );
-                MainWindow.getInstance()
-                          .getDesk()
-                          .getGameMenu()
-                          .getHitButton()
-                          .setEnabled(false);
-                break;
-            }
-            case PLAYER_LEFT :
-            {
-                
-                break;
-            }
-            case OPPONENT_READY :
-            { 
-//                mIsOpponentReady=  true;
-                // Display Ready on opponent player grid              
-                break;
-            }
-            case PLAYER_READY :
-            {
-//                mFirstPlayerToBegin=  true;
-                // Display Ready on current player grid
-                break;                
-            }
-            
-            case PLAYER_TURN :
-            {
-                gameMenu.getHitButton().setEnabled( true );
-                MainWindow.getInstance().getDesk()
-                                        .getJoueurGrid()
-                                        .setGridDisplayEnabled( false );
-                MainWindow.getInstance().getDesk()
-                                        .getAdversaireGrid()
-                                        .setGridDisplayEnabled( true );
-                break;
-            }
-            case OPPONENT_TURN :
-            {
-                gameMenu.getHitButton().setEnabled( false );
-                MainWindow.getInstance().getDesk()
-                                        .getAdversaireGrid()
-                                        .setGridDisplayEnabled( false );
-                break;
-            }
-            
-            case READY :
-            {
-                break;
-            }
+        } );
+        if (SwingUtilities.isEventDispatchThread())
+        {
+            t.start();
+        }
+        else
+        {
+            System.out.println( "Lancement dans l' EDT" );
+            SwingUtilities.invokeLater( t );
         }
     }
 

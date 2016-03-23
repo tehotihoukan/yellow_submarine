@@ -72,10 +72,14 @@ public class Sender
         try
         {
             System.out.println("message ? "+ message);
-            mOutputStreamWriter.write( message + "\n" );
-            mOutputStreamWriter.flush();
 
-        } catch (IOException e)
+            if ( mOutputStreamWriter != null )
+            {
+                mOutputStreamWriter.write( message + "\n" );
+                mOutputStreamWriter.flush();
+            }
+        }
+        catch (IOException e)
         {
             e.printStackTrace();
         }

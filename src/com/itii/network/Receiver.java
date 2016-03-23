@@ -191,6 +191,7 @@ public class Receiver
                 if ( square.getState() != StateEnum.BOAT_HIT ) // !SM!
                 {
                     TurnManager.getInstance().setGamePhase( GamePhase.OPPONENT_TURN );
+                    
                 }
                 
                 // Verify if all boats aren't sunk

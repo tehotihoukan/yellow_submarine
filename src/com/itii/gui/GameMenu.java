@@ -24,8 +24,6 @@ public class GameMenu
     extends JPanel
     implements ActionListener
 {
-    
-    
     private ActionEvent mActionEvent;
     
     private final String    ACTION_ROTATE_BOAT_BUTTON=  "ACTION_ROTATE_BOAT_BUTTON"; 
@@ -81,6 +79,10 @@ public class GameMenu
     public void actionPerformed ( ActionEvent pActionEvent )
     {
         mActionEvent=  pActionEvent;
+        if ( ! SwingUtilities.isEventDispatchThread() )
+        {
+            System.out.println( "not in EDT" );
+        }
         
         SwingUtilities.invokeLater( new Runnable()
         {
@@ -103,7 +105,6 @@ public class GameMenu
                             new Message ( MessageType.PLAYER_LEFT_ID, "" ) );
                                         
                     System.exit( 0 ); 
-
                 }
                 else if ( ACTION_READY_BUTTON.equals( mActionEvent.getActionCommand() ) )
                 {
