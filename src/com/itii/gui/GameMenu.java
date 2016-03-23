@@ -14,7 +14,11 @@ import javax.swing.SwingUtilities;
 
 import com.itii.data.Boat;
 import com.itii.data.State.GamePhase;
+import com.itii.data.boats.AircraftCarrier;
+import com.itii.data.boats.Battleship;
+import com.itii.data.boats.Cruiser;
 import com.itii.data.boats.Destroyer;
+import com.itii.data.boats.Submarine;
 import com.itii.manager.TurnManager;
 import com.itii.network.Message;
 import com.itii.network.MessageType;
@@ -135,7 +139,7 @@ public class GameMenu
                             sender.initialize();
                             
                             sender.sendPlayerMessage( new Message( MessageType.PLAYER_JOINED_ID, 
-                                                                   "192.168.1.11" ) );
+                                                                   "192.168.0.11" ) ); // Envoi de "mon" IP
 
                             getJoinButton().setEnabled( false );
                             TurnManager.getInstance().setGamePhase( 
@@ -204,12 +208,10 @@ public class GameMenu
         if ( mBoatComboBox == null )
         {
             final Boat[] boats= { 
-//                                  new AircraftCarrier(),
-//                                  new Battleship(),
-//                                  new Cruiser(),
-//                                  new Submarine(),
-//                                  new Submarine(),
-//                                  new Destroyer(),
+                                  new AircraftCarrier(),
+                                  new Battleship(),
+                                  new Cruiser(),
+                                  new Submarine(),
                                   new Destroyer() };
             mBoatComboBox=  new JComboBox<Boat>( boats );
             Boat.countTotalNumberOfBoatSquares( boats );
