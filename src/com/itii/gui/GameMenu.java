@@ -180,7 +180,7 @@ public class GameMenu
     {
         if ( mJoinButton == null )
         {
-            mJoinButton =            new JButton("Join");
+            mJoinButton =            new JButton("Join Server");
             mJoinButton.setActionCommand( ACTION_JOIN_BUTTON );
             mJoinButton.addActionListener( this );
         }
@@ -199,7 +199,7 @@ public class GameMenu
         return mReadyButton;
     }
     
-    public JComboBox getBoatComboBox()
+    public JComboBox<Boat> getBoatComboBox()
     {
         if ( mBoatComboBox == null )
         {
@@ -221,7 +221,7 @@ public class GameMenu
     {
         if ( mBoatAvailableLabel == null )
         {
-            mBoatAvailableLabel=  new JLabel(" Available Boats ");
+            mBoatAvailableLabel=  new JLabel("Available Boats");
         }
         return mBoatAvailableLabel;
     }
