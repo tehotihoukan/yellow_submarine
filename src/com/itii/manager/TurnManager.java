@@ -3,7 +3,6 @@ package com.itii.manager;
 import javax.swing.SwingUtilities;
 
 import com.itii.data.State.GamePhase;
-import com.itii.gui.Desk;
 import com.itii.gui.GameMenu;
 import com.itii.gui.MainWindow;
 

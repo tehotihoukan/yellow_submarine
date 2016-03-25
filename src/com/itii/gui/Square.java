@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 import com.itii.data.Coordinates;
 import com.itii.data.State.StateEnum;
 
+@SuppressWarnings("serial")
 public class Square 
     extends JComponent
 {

@@ -1,17 +1,16 @@
 package com.itii.gui;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-
 import javax.swing.JFrame;
+
 
 /**
  * Main Window containing all the game
  */
+@SuppressWarnings("serial")
 public class MainWindow 
     extends JFrame
 {
-    private static MainWindow instance=  new MainWindow();
+    private static final MainWindow instance=  new MainWindow();
     
     private Desk mDesk;
     

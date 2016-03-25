@@ -15,6 +15,5 @@ public class Launcher
         
         Receiver.getInstance().setPort( 8888 );
         Receiver.getInstance().start();
-        
     }
 }

@@ -21,6 +21,7 @@ import com.itii.network.Message;
 import com.itii.network.MessageType;
 import com.itii.network.Sender;
 
+@SuppressWarnings("serial")
 public class GridDisplay 
     extends JPanel
     implements MouseListener,
@@ -89,7 +90,7 @@ public class GridDisplay
                 if ( has_been_added )
                 {
                     // Once the boat has been placed we delete it from the combo box.
-                    JComboBox boat_combo_box=   MainWindow.getInstance()
+                    JComboBox<Boat> boat_combo_box=   MainWindow.getInstance()
                                                           .getDesk()
                                                           .getGameMenu()
                                                           .getBoatComboBox();
@@ -134,36 +135,31 @@ public class GridDisplay
     @Override
     public void mouseEntered ( MouseEvent arg0 )
     {
-        // TODO Auto-generated method stub
-        
+        // Nothing        
     }
 
     @Override
     public void mouseExited ( MouseEvent arg0 )
     {
-        // TODO Auto-generated method stub
-        
+        // Nothing
     }
 
     @Override
     public void mousePressed ( MouseEvent arg0 )
     {
-        // TODO Auto-generated method stub
-        
+        // Nothing        
     }
 
     @Override
     public void mouseReleased ( MouseEvent arg0 )
     {
-        // TODO Auto-generated method stub
-        
+        // Nothing 
     }
 
     @Override
     public void mouseDragged ( MouseEvent arg0 )
     {
-        // TODO Auto-generated method stub
-        
+        // Nothing        
     }
 
     @Override
