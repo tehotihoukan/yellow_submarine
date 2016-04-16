@@ -9,6 +9,26 @@ import com.itii.gui.MainWindow;
 public class TurnManager
 {
 
+    public GamePhase getmGamePhase()
+    {
+        return mGamePhase;
+    }
+
+    public void setmGamePhase(GamePhase mGamePhase)
+    {
+        this.mGamePhase = mGamePhase;
+    }
+
+    public boolean ismCurrentPlayerTurn()
+    {
+        return mCurrentPlayerTurn;
+    }
+
+    public void setmCurrentPlayerTurn(boolean mCurrentPlayerTurn)
+    {
+        this.mCurrentPlayerTurn = mCurrentPlayerTurn;
+    }
+
     private static final TurnManager mTurnManager=  new TurnManager();
 
     private TurnManager() {}

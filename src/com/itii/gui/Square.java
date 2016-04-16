@@ -64,82 +64,81 @@ public class Square
     public void paintSquare ( Graphics pGraphics, int dimension )
     {
         
+//        System.out.println("paint square : X: " + this.getCoordinates().getXIndex() 
+//                + "  Y : "  + this.getCoordinates().getYIndex() );
         Color c=  pGraphics.getColor();
 
         switch ( getState() )
         {
         case EMPTY :
-            pGraphics.setColor( Color.blue );
-            pGraphics.fillRect( mCoordinates.getX() * dimension, 
-                                mCoordinates.getY() * dimension, 
+            pGraphics.setColor( ColorSet.SQUARE_BG );
+            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
+                                mCoordinates.getYIndex() * dimension, 
                                 dimension, 
                                 dimension );
             
-            pGraphics.setColor( Color.white );
-            pGraphics.drawRect( mCoordinates.getX() * dimension, 
-                                mCoordinates.getY() * dimension, 
+            pGraphics.setColor( ColorSet.SQUARE_EDGE );
+            pGraphics.drawRect( mCoordinates.getXIndex() * dimension, 
+                                mCoordinates.getYIndex() * dimension, 
                                 dimension, 
                                 dimension );
             break;
     
         case PLACING_BOAT :
-            pGraphics.setColor( Color.gray );
-            pGraphics.fillRect( mCoordinates.getX() * dimension, 
-                                mCoordinates.getY() * dimension,
+            pGraphics.setColor( ColorSet.SQUARE_PLACING_BOAT_BG );
+            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
+                                mCoordinates.getYIndex() * dimension,
                                 dimension, 
                                 dimension );
             break;
         case BOAT :
-            pGraphics.setColor( Color.black );
-            pGraphics.fillRect( mCoordinates.getX() * dimension, 
-                               mCoordinates.getY() * dimension,
+            pGraphics.setColor( ColorSet.SQUARE_BOAT_BG );
+            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
+                               mCoordinates.getYIndex() * dimension,
                                dimension, 
                                dimension );
             break;
             
         case BOAT_HIT :
-            pGraphics.setColor( new Color( 220, 0, 0 ) );
-            pGraphics.fillRect( mCoordinates.getX() * dimension, 
-                               mCoordinates.getY() * dimension,
+            pGraphics.setColor( ColorSet.SQUARE_BOAT_HIT );
+            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
+                               mCoordinates.getYIndex() * dimension,
                                dimension, 
                                dimension );
             break;
             
         case BOAT_SUNK :
-            pGraphics.setColor( new Color( 0, 0, 0 ) );
-            pGraphics.fillRect( mCoordinates.getX() * dimension, 
-                               mCoordinates.getY() * dimension,
+            pGraphics.setColor( ColorSet.SQUARE_BOAT_SUNK );
+            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
+                               mCoordinates.getYIndex() * dimension,
                                dimension, 
                                dimension  );
             break;
             
         case HIT : 
-            pGraphics.setColor( new Color( 0, 0, 0 ) );
-            pGraphics.drawRect( mCoordinates.getX() * dimension, 
-                               mCoordinates.getY() * dimension,
+            pGraphics.setColor( ColorSet.HIT );
+            pGraphics.drawRect( mCoordinates.getXIndex() * dimension, 
+                               mCoordinates.getYIndex() * dimension,
                                dimension - 1, 
                                dimension - 1 );
             break;
             
         case MISSED :
-            pGraphics.setColor( new Color( 10, 10, 10 ) );
-            pGraphics.drawRect( mCoordinates.getX() * dimension, 
-                               mCoordinates.getY() * dimension,
+            pGraphics.setColor( ColorSet.MISSED );
+            pGraphics.drawRect( mCoordinates.getXIndex() * dimension, 
+                               mCoordinates.getYIndex() * dimension,
                                dimension - 1, 
                                dimension - 1 );
             
             break;
             
         case FORBIDDEN :
-            pGraphics.setColor( new Color( 220, 10, 10 ) );
-            pGraphics.fillRect( mCoordinates.getX() * dimension, 
-                               mCoordinates.getY() * dimension,
+            pGraphics.setColor( ColorSet.FORBIDDEN );
+            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
+                               mCoordinates.getYIndex() * dimension,
                                dimension, 
                                dimension );
             break;
-            
-            
-            
             
         default :
             System.out.println(" Square - Error with default ");
@@ -187,15 +186,13 @@ public class Square
                    : mSquareState;
     }
     
-    @Override
-    public int getX ()
+    public int getXIndex ()
     {
-        return mCoordinates.getX();
+        return mCoordinates.getXIndex();
     }
     
-    @Override
-    public int getY ()
+    public int getYIndex ()
     {
-     return mCoordinates.getY();
+     return mCoordinates.getYIndex();
     }
 }

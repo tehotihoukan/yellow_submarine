@@ -4,9 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-//import com.itii.data.State;
-//import com.itii.data.State.StateEnum;
 
+@SuppressWarnings("serial")
 public class SurroundingSquare 
     extends Square
 {
@@ -44,15 +43,15 @@ public class SurroundingSquare
         
         graphics.setBackground( Color.BLACK );
         graphics.setColor( Color.BLACK );
-        graphics.fillRect( mCoordinates.getX() * pSquareDimension, 
-                           mCoordinates.getY() * pSquareDimension,
+        graphics.fillRect( mCoordinates.getXIndex() * pSquareDimension, 
+                           mCoordinates.getYIndex() * pSquareDimension,
                            pSquareDimension, 
                            pSquareDimension );
 
         graphics.setColor( Color.WHITE );
         graphics.drawString( currentName, 
-                             mCoordinates.getX() * pSquareDimension + pSquareDimension / 2, 
-                             mCoordinates.getY() * pSquareDimension + pSquareDimension - 3 );
+                             mCoordinates.getXIndex() * pSquareDimension + pSquareDimension / 2, 
+                             mCoordinates.getYIndex() * pSquareDimension + pSquareDimension - 3 );
         
         
         

@@ -23,7 +23,7 @@ public class MainWindow
     {
         setSize( 600, 265);
         setVisible( true );
-        setResizable( false );
+//        setResizable( false );
         // When closing the window, exit also the program
         setDefaultCloseOperation( EXIT_ON_CLOSE );
         

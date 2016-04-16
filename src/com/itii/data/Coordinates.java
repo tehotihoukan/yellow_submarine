@@ -2,27 +2,39 @@ package com.itii.data;
 
 public class Coordinates
 {
-    private final short mX, mY;
-    
-    public Coordinates ( final short pX, final short pY )
+    private final short mXIndex, mYIndex;
+
+    /**
+     * @param pXIndex is the X Coordinate for a component
+     * @param pYIndex is the Y Coordinate for a component
+     */
+    public Coordinates ( final short pXIndex,
+                         final short pYIndex )
     {
-        mX=  pX;
-        mY=  pY;
+        mXIndex=  pXIndex;
+        mYIndex=  pYIndex;
     }
-    
-    public short getX ()
+
+    /**
+     * @return the X Location in the grid.
+     */
+    public short getXIndex ()
     {
-        return mX;
+        return mXIndex;
     }
-    
-    public short getY ()
+
+    /**
+     * 
+     * @return the Y Location in the grid.
+     */
+    public short getYIndex ()
     {
-        return mY;
+        return mYIndex;
     }
-    
+
     public String toString ()
     {
-        return String.format("%02d", mX)+ String.format("%02d", mY);
+        return String.format("%02d", mXIndex)+ String.format("%02d", mYIndex);
     }
 
 
@@ -31,7 +43,7 @@ public class Coordinates
         final String coordinates=  pString.substring( 3 );
         final Short  x=            Short.parseShort( coordinates.substring( 0, 2 ) );
         final Short  y=            Short.parseShort( coordinates.substring( 2, 4 ) );
-        
+
         return new Coordinates( x, y );
     }
 }

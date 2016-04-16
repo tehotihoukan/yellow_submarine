@@ -164,7 +164,7 @@ public class Receiver
                 final Square square=   MainWindow.getInstance()
                                                  .getDesk()
                                                  .getJoueurGrid()
-                                                 .getSquareAt( coordinates.getX(),  coordinates.getY() );
+                                                 .getSquareAt( coordinates.getXIndex(),  coordinates.getYIndex() );
                 
                 square.updateState( StateEnum.HIT );
                 // Then we send back the square status.
@@ -183,7 +183,7 @@ public class Receiver
                 final Square square=     MainWindow.getInstance()
                                                    .getDesk()
                                                    .getAdversaireGrid()
-                                                   .getSquareAt( coordinates.getX(),  coordinates.getY() );
+                                                   .getSquareAt( coordinates.getXIndex(),  coordinates.getYIndex() );
                 final StateEnum state=           StateEnum.valueOf( pMessage.substring( 8 ) );
                 square.setState( state );
                 

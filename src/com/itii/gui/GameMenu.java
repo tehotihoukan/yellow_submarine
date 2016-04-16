@@ -1,5 +1,6 @@
 package com.itii.gui;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,7 @@ import com.itii.network.Message;
 import com.itii.network.MessageType;
 import com.itii.network.Sender;
 
+@SuppressWarnings("serial")
 public class GameMenu
     extends JPanel
     implements ActionListener
@@ -61,7 +63,9 @@ public class GameMenu
     public void initialize()
     {
 
-        setSize( 50, getHeight() );
+        
+        setBackground( ColorSet.GAME_MENU_BG );
+//        setSize( 50, getHeight() );
         validate();
         GridLayout layout=   new GridLayout(10, 0);
         this.setLayout( layout );
@@ -75,7 +79,14 @@ public class GameMenu
         this.add( getSurrenderButton() );
         this.add( getRestartButton() );
         this.add( getQuitButton() );
-        this.add( new JPanel()  );
+        this.add( new JPanel()
+                {
+                    @Override
+                    public Color getBackground()
+                    {
+                        return Color.BLUE;
+                    }
+                });
             
     }
 
