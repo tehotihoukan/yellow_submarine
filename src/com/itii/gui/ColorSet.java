@@ -17,7 +17,7 @@ public class ColorSet
     public static final Color SQUARE_BOAT_HIT=  new Color( 220, 0, 0 );
     
     public static final Color HIT=  new Color( 0, 10, 0 ) ;
-    public static final Color MISSED=  new Color( 40, 10, 10 );
+    public static final Color MISSED=  new Color( 130, 130, 230 );
     public static final Color FORBIDDEN=  new Color( 230, 30, 30 );
     
     

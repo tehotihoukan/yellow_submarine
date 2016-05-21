@@ -1,9 +1,9 @@
 package com.itii.gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -28,10 +28,12 @@ public class GridDisplay
                MouseMotionListener
 {
 
-    int     mGridSize;
-    final boolean mOpponent;
+    private final boolean mOpponent;
 
-    final Square[][] mSquares;
+    private final Square[][] mSquares;
+
+    private ArrayList<Square> mTemporarySquares;
+
 
     public GridDisplay ( final int      pGridSize,
                          final boolean  pOpponent )
@@ -40,8 +42,6 @@ public class GridDisplay
                 ? new Color(100,100,150)
                         : new Color(200,100,100));
         mOpponent=  pOpponent;
-        mGridSize=  pGridSize+1;
-
         mSquares=  new Square[pGridSize + 1][ pGridSize + 1];
 
         setMinimumSize( new Dimension( pGridSize * Square.DEFAULT_SIZE,  pGridSize * Square.DEFAULT_SIZE) );
@@ -53,6 +53,8 @@ public class GridDisplay
 
     private  void initializeGrid()
     {
+        this.setLayout( new GridLayout( mSquares.length,  mSquares.length ) );
+
         for (int y=  0; y < mSquares.length; y++)
         {
             for (int x=  0; x < mSquares[y].length; x++)
@@ -65,6 +67,7 @@ public class GridDisplay
                 {
                     mSquares[y][x]=  new Square((short)x, (short)y);
                 }
+                this.add( mSquares[y][x] );
             }
         }
     }
@@ -85,7 +88,7 @@ public class GridDisplay
                                                            .getSelectedItem();
             if ( boat_being_added != null )
             {
-                boolean has_been_added=  updateSquareDependingOnBoatSelected( square_selected,
+                boolean has_been_added=  updateSquareDependingOnSelectedBoat( square_selected,
                                                                               boat_being_added,
                                                                               State.StateEnum.BOAT,
                                                                               false );
@@ -126,8 +129,6 @@ public class GridDisplay
                                                                      square_displaying_boat.getCoordinates().toString() ) );
 
                 square_displaying_boat.setState( StateEnum.HIT );
-//                if ( square_displaying_boat.getState() != StateEnum.BOAT_HIT ) // !SM!
-//                    TurnManager.getInstance().setGamePhase( GamePhase.OPPONENT_TURN );
             }
         }
 
@@ -173,12 +174,13 @@ public class GridDisplay
         Boat boat_being_added=           (Boat) MainWindow.getInstance().getDesk().getGameMenu()
                                                                            .getBoatComboBox()
                                                                            .getSelectedItem();
-        if ( boat_being_added != null )
+        if (   ( boat_being_added != null )
+            && (grid_display.getComponentAt( pMouseEvent.getPoint() ) instanceof Square ) )
         {
-            Square  square_displaying_boat=  (Square)(grid_display.getComponentAt( pMouseEvent.getPoint() ));
+            Square  square_displaying_boat=  (Square) (grid_display.getComponentAt( pMouseEvent.getPoint() ));
 
             // If it remains some boat to add we display them on the grid. Else we jump to next step.
-            updateSquareDependingOnBoatSelected( square_displaying_boat,
+            updateSquareDependingOnSelectedBoat( square_displaying_boat,
                                                  boat_being_added,
                                                  State.StateEnum.PLACING_BOAT,
                                                  true );
@@ -194,52 +196,7 @@ public class GridDisplay
     public void paint ( Graphics g )
     {
         super.paint( g );
-
-        final Color prev_color=  g.getColor();
-
-        Color bgColor=  new Color(100, 100, 200);
-        g.setColor( bgColor );
-        g.fillRect( 0, 0, getWidth(), getHeight() );
-        g.setColor( prev_color );
-
-        // Display the grid itself.
-        final int squareEdgeSize=  Math.min( getWidth() / mSquares.length,
-                                             getHeight() / mSquares[0].length );
-//        final float gridSize=  Math.min( getWidth(), getHeight() );
-
-        mGridSize=  squareEdgeSize * mSquares.length;
-
-//        System.out.println("squareEdgeSize" + squareEdgeSize);
-        for (int y = 0; y < mSquares.length ; y ++ )
-        {
-            for (int x = 0; x < mSquares[y].length ; x ++ )
-            {
-                mSquares[y][x].paintSquare( g, squareEdgeSize );
-            }
-        }
-
-        g.setColor( prev_color );
     }
-
-    /**
-     * Get the component at the given coordinate (in pixel on the panel)
-     */
-    @Override
-    public Component getComponentAt ( final int x, final int y )
-    {
-        int xLocation=  (int) ( ( (float)x / (float)mGridSize ) * mSquares[0].length );
-        int yLocation=  (int) ( ( (float)y / (float)mGridSize ) * mSquares.length );
-
-        xLocation =  Math.min( xLocation, mSquares[0].length - 1 );
-        yLocation =  Math.min( yLocation, mSquares.length - 1 );
-
-        return mSquares[yLocation][xLocation];
-    }
-
-
-
-
-
 
     /**
      * Update the drawing of the specified boat on the grid.
@@ -247,12 +204,12 @@ public class GridDisplay
      * @param pCurrentBoatBeingAdded is the current boat to be displayed on the grid
      * @return a boolean representing the update status. If it cannot be updated return false.
      */
-    public boolean updateSquareDependingOnBoatSelected ( final Square     pCurrentSquare,
+    public boolean updateSquareDependingOnSelectedBoat ( final Square     pCurrentSquare,
                                                          final Boat       pCurrentBoatBeingAdded,
                                                          final StateEnum  pState,
                                                          final boolean    pIsTemporary)
     {
-        freeAllTemporarySquareState();
+        freeTemporarySquareState();
 
         final ArrayList< Square > listOfSquareToUpdate=  new ArrayList< Square >();
         boolean isFreeSquare=  true;
@@ -351,7 +308,7 @@ public class GridDisplay
                 ? pState
                 : State.StateEnum.FORBIDDEN;
 
-        for (Square square : listOfSquareToUpdate)
+        for ( final Square square : listOfSquareToUpdate )
         {
             if ( pIsTemporary )
             {
@@ -364,6 +321,8 @@ public class GridDisplay
             }
         }
 
+        setTemporarySquaresToUpdate( listOfSquareToUpdate );
+
         return isFreeSquare;
     }
 
@@ -375,6 +334,7 @@ public class GridDisplay
             for ( int x=0; x < mSquares[y].length; x++ )
             {
                 mSquares[y][x].setState(StateEnum.EMPTY);
+                System.out.println("freeGrid :" + mOpponent);
             }
         }
     }
@@ -389,9 +349,29 @@ public class GridDisplay
             for ( int x=0; x < mSquares[y].length; x++ )
             {
                 mSquares[y][x].freeTemporaryState();
-                System.out.println("free GridDIsplay");
+                System.out.println("freeAllTemporarySquareState :" + mOpponent);
             }
         }
+    }
+
+    /**
+     * Free the Square that were updated.
+     */
+    public void freeTemporarySquareState()
+    {
+        if ( mTemporarySquares != null )
+        {
+            for ( final Square square : mTemporarySquares )
+            {
+                square.freeTemporaryState();
+                System.out.println("freeTemporarySquareState :" + mOpponent);
+            }
+        }
+    }
+
+    public void setTemporarySquaresToUpdate( final ArrayList<Square> pTemporarySquares )
+    {
+        mTemporarySquares=  pTemporarySquares;
     }
 
     public void setGridDisplayEnabled( final boolean pIsEnabled )
@@ -412,17 +392,15 @@ public class GridDisplay
 
     /**
      * Get the square at the specific coordinates
-     * @param x
-     * @param y
      */
     public Square getSquareAt ( final short x, final short y )
     {
         return mSquares[y][x];
     }
 
-
-
-
+    /**
+     * @return the number of free squares of boats unsunk. 
+     */
     public final int getNumberOfBoatSquareUnsunk()
     {
 

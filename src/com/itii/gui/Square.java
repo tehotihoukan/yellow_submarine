@@ -1,6 +1,7 @@
 package com.itii.gui;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
@@ -24,6 +25,9 @@ public class Square
     public Square ( final short pXCoordinate,  final short pYCoordinate )
     {
         mCoordinates=  new Coordinates( pXCoordinate, pYCoordinate );
+        
+        setMinimumSize( new Dimension( 20, 20 ) );
+        setPreferredSize( new Dimension(20, 20) );
     }
     
     public final void freeTemporaryState()
@@ -60,84 +64,74 @@ public class Square
         }
     }
     
-    
-    public void paintSquare ( Graphics pGraphics, int dimension )
+    @Override
+    public void paint ( Graphics pGraphics )
     {
-        
-//        System.out.println("paint square : X: " + this.getCoordinates().getXIndex() 
-//                + "  Y : "  + this.getCoordinates().getYIndex() );
+        System.out.println("paint square : X: " + this.getCoordinates().getXIndex() 
+                + "  Y : "  + this.getCoordinates().getYIndex() );
         Color c=  pGraphics.getColor();
 
         switch ( getState() )
         {
         case EMPTY :
             pGraphics.setColor( ColorSet.SQUARE_BG );
-            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
-                                mCoordinates.getYIndex() * dimension, 
-                                dimension, 
-                                dimension );
+            pGraphics.fillRect( 0, 0, 
+                                getWidth(), 
+                                getHeight() );
             
             pGraphics.setColor( ColorSet.SQUARE_EDGE );
-            pGraphics.drawRect( mCoordinates.getXIndex() * dimension, 
-                                mCoordinates.getYIndex() * dimension, 
-                                dimension, 
-                                dimension );
+            pGraphics.drawRect( 0, 0, 
+                    getWidth(), 
+                    getHeight() );
             break;
     
         case PLACING_BOAT :
             pGraphics.setColor( ColorSet.SQUARE_PLACING_BOAT_BG );
-            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
-                                mCoordinates.getYIndex() * dimension,
-                                dimension, 
-                                dimension );
+            pGraphics.fillRect( 0, 0, 
+                    getWidth(), 
+                    getHeight() );
             break;
         case BOAT :
             pGraphics.setColor( ColorSet.SQUARE_BOAT_BG );
-            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
-                               mCoordinates.getYIndex() * dimension,
-                               dimension, 
-                               dimension );
+            pGraphics.fillRect( 0, 0, 
+                    getWidth(), 
+                    getHeight() );
             break;
             
         case BOAT_HIT :
             pGraphics.setColor( ColorSet.SQUARE_BOAT_HIT );
-            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
-                               mCoordinates.getYIndex() * dimension,
-                               dimension, 
-                               dimension );
+            pGraphics.fillRect( 0, 0, 
+                    getWidth(), 
+                    getHeight() );
             break;
             
         case BOAT_SUNK :
             pGraphics.setColor( ColorSet.SQUARE_BOAT_SUNK );
-            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
-                               mCoordinates.getYIndex() * dimension,
-                               dimension, 
-                               dimension  );
+            pGraphics.fillRect( 0, 0, 
+                    getWidth(), 
+                    getHeight() );
             break;
             
         case HIT : 
             pGraphics.setColor( ColorSet.HIT );
-            pGraphics.drawRect( mCoordinates.getXIndex() * dimension, 
-                               mCoordinates.getYIndex() * dimension,
-                               dimension - 1, 
-                               dimension - 1 );
+            pGraphics.fillRect( 0, 0, 
+                    getWidth() -1 , 
+                    getHeight() -1 );
             break;
             
         case MISSED :
             pGraphics.setColor( ColorSet.MISSED );
-            pGraphics.drawRect( mCoordinates.getXIndex() * dimension, 
-                               mCoordinates.getYIndex() * dimension,
-                               dimension - 1, 
-                               dimension - 1 );
+            pGraphics.fillRect( 0, 0, 
+                    getWidth() -1, 
+                    getHeight() -1 );
             
             break;
             
         case FORBIDDEN :
             pGraphics.setColor( ColorSet.FORBIDDEN );
-            pGraphics.fillRect( mCoordinates.getXIndex() * dimension, 
-                               mCoordinates.getYIndex() * dimension,
-                               dimension, 
-                               dimension );
+            pGraphics.fillRect( 0, 0, 
+                    getWidth(), 
+                    getHeight() );
             break;
             
         default :

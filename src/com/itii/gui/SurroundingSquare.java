@@ -31,10 +31,15 @@ public class SurroundingSquare
     }
     
     
-    
     @Override
-    public final void paintSquare ( Graphics pGraphics, int pSquareDimension )
+    public void paint ( Graphics pGraphics )
     {
+//         TODO Auto-generated method stub
+        super.paint( pGraphics );
+//    }
+//    @Override
+//    public final void paintSquare ( Graphics pGraphics, int pSquareDimension )
+//    {
         
         final Graphics2D graphics=  (Graphics2D) pGraphics;
 
@@ -43,15 +48,14 @@ public class SurroundingSquare
         
         graphics.setBackground( Color.BLACK );
         graphics.setColor( Color.BLACK );
-        graphics.fillRect( mCoordinates.getXIndex() * pSquareDimension, 
-                           mCoordinates.getYIndex() * pSquareDimension,
-                           pSquareDimension, 
-                           pSquareDimension );
+        pGraphics.fillRect( 0, 0, 
+                getWidth(), 
+                getHeight() );
 
         graphics.setColor( Color.WHITE );
         graphics.drawString( currentName, 
-                             mCoordinates.getXIndex() * pSquareDimension + pSquareDimension / 2, 
-                             mCoordinates.getYIndex() * pSquareDimension + pSquareDimension - 3 );
+                getWidth() / 2, 
+                getHeight() - 3 );
         
         
         

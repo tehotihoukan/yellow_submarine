@@ -31,45 +31,45 @@ public class GameMenu
     implements ActionListener
 {
     private ActionEvent mActionEvent;
-    
-    private final String    ACTION_ROTATE_BOAT_BUTTON=  "ACTION_ROTATE_BOAT_BUTTON"; 
+
+    private final String    ACTION_ROTATE_BOAT_BUTTON=  "ACTION_ROTATE_BOAT_BUTTON";
     private JButton         mRotateBoatButton;
-    
+
     private final String   ACTION_READY_BUTTON =  "ACTION_READY_BUTTON";
     private JButton   mReadyButton;
-    
+
     private final String    ACTION_JOIN_BUTTON=  "ACTION_JOIN_BUTTON";
     private JButton   mJoinButton;
-    
+
     private JComboBox<Boat> mBoatComboBox;
-    
+
     private JLabel    mBoatAvailableLabel;
-    
+
     private JButton   mHitButton;
-    
+
     private JButton   mSurrenderButton;
-    
+
     private final String    ACTION_RESTART_BUTTON= "ACTION_RESTART_BUTTON";
     private JButton   mRestartButton;
 
-    private final String    ACTION_QUIT_BUTTON=  "ACTION_QUIT_BUTTON"; 
+    private final String    ACTION_QUIT_BUTTON=  "ACTION_QUIT_BUTTON";
     private JButton         mQuitButton;
-    
+
     public GameMenu ()
     {
         initialize();
     }
-    
+
     public void initialize()
     {
 
-        
+
         setBackground( ColorSet.GAME_MENU_BG );
 //        setSize( 50, getHeight() );
         validate();
         GridLayout layout=   new GridLayout(10, 0);
         this.setLayout( layout );
-        
+
         this.add( getJoinButton() );
         this.add( getBoatAvailableLabel() );
         this.add( getBoatComboBox() );
@@ -87,7 +87,7 @@ public class GameMenu
                         return Color.BLUE;
                     }
                 });
-            
+
     }
 
     @Override
@@ -98,7 +98,7 @@ public class GameMenu
         {
             System.out.println( "not in EDT" );
         }
-        
+
         SwingUtilities.invokeLater( new Runnable()
         {
             @Override
@@ -113,13 +113,13 @@ public class GameMenu
                                                               .getSelectedItem();
                     boat_being_added.flipOrientation( );
                 }
-                
+
                 else if ( ACTION_QUIT_BUTTON.equals( mActionEvent.getActionCommand() ))
                 {
-                    Sender.getInstance().sendPlayerMessage( 
+                    Sender.getInstance().sendPlayerMessage(
                             new Message ( MessageType.PLAYER_LEFT_ID, "" ) );
-                                        
-                    System.exit( 0 ); 
+
+                    System.exit( 0 );
                 }
                 else if ( ACTION_READY_BUTTON.equals( mActionEvent.getActionCommand() ) )
                 {
@@ -128,19 +128,19 @@ public class GameMenu
                     TurnManager.getInstance().setGamePhase( TurnManager.getInstance().isOpponentReady()
                                                             ? GamePhase.READY
                                                             : GamePhase.PLAYER_READY );
-                    
+
                     final Sender sender=   Sender.getInstance();
 //                    final double discriminantValue=  Math.random();
 //                    TurnManager.getInstance().setStartValueForCurrentPlayer( discriminantValue );
                     sender.sendPlayerMessage( new Message ( MessageType.READY_ID, null ) );
                 }
-            
+
                 else if ( ACTION_JOIN_BUTTON.equals( mActionEvent.getActionCommand() ))
                 {
-                    String ipAddress=  JOptionPane.showInputDialog( new JFrame(), 
+                    String ipAddress=  JOptionPane.showInputDialog( new JFrame(),
                                                                     "Enter IP Address and Port number in format {255.225.225.225}",
                                                                     "127.0.0.1");
-//                    int i=  ipAddress.split("\\d+").length;              
+//                    int i=  ipAddress.split("\\d+").length;
                     if ( ipAddress.split("\\.").length == 4 )
                     {
                         final Sender sender=   Sender.getInstance();
@@ -148,13 +148,13 @@ public class GameMenu
                             sender.setHost(ipAddress);
                             sender.setPort( 8888 );
                             sender.initialize();
-                            
-                            sender.sendPlayerMessage( new Message( MessageType.PLAYER_JOINED_ID, 
+
+                            sender.sendPlayerMessage( new Message( MessageType.PLAYER_JOINED_ID,
                                                                    "192.168.0.11" ) ); // Envoi de "mon" IP
 
                             getJoinButton().setEnabled( false );
-                            TurnManager.getInstance().setGamePhase( 
-                                    TurnManager.getInstance().isOpponentPlayerAvailable() 
+                            TurnManager.getInstance().setGamePhase(
+                                    TurnManager.getInstance().isOpponentPlayerAvailable()
                                         ? GamePhase.DEPLOYMENT
                                         : GamePhase.WAITING_FOR_OPPONENT
                                     );
@@ -172,11 +172,11 @@ public class GameMenu
             }
         });
     }
-    
-    
-    
 
-    
+
+
+
+
     public JButton getRotateBoatButton()
     {
         if ( mRotateBoatButton == null )
@@ -185,12 +185,12 @@ public class GameMenu
             mRotateBoatButton.setActionCommand( ACTION_ROTATE_BOAT_BUTTON );
             mRotateBoatButton.addActionListener( this );
         }
-        
+
         return mRotateBoatButton;
 
     }
-  
-    
+
+
     public JButton getJoinButton()
     {
         if ( mJoinButton == null )
@@ -201,8 +201,8 @@ public class GameMenu
         }
         return mJoinButton ;
     }
-    
-    
+
+
     public JButton getReadyButton()
     {
         if ( mReadyButton == null )
@@ -213,12 +213,12 @@ public class GameMenu
         }
         return mReadyButton;
     }
-    
+
     public JComboBox<Boat> getBoatComboBox()
     {
         if ( mBoatComboBox == null )
         {
-            final Boat[] boats= { 
+            final Boat[] boats= {
                                   new AircraftCarrier(),
                                   new Battleship(),
                                   new Cruiser(),
@@ -238,7 +238,7 @@ public class GameMenu
         }
         return mBoatAvailableLabel;
     }
-    
+
     public JButton getHitButton()
     {
         if ( mHitButton == null )
@@ -248,7 +248,7 @@ public class GameMenu
         return mHitButton;
 
     }
-    
+
     public JButton getSurrenderButton()
     {
         if ( mSurrenderButton == null )
@@ -257,7 +257,7 @@ public class GameMenu
         }
         return mSurrenderButton;
     }
-    
+
     public JButton getRestartButton()
     {
         if ( mRestartButton == null )
@@ -268,8 +268,8 @@ public class GameMenu
         }
         return mRestartButton;
     }
-    
-    
+
+
     public JButton getQuitButton()
     {
         if ( mQuitButton == null )
